@@ -77,20 +77,23 @@ public class CourseAssignment {
         for(Instructor instructor : instructors.values())
         {
             boolean assigned = false;
-            while(!assigned && !instructor.getPreferredCourses().isEmpty())
+            while(!assigned)
             {
                 Course preferredCourse =courses.get( instructor.getPreferredCourses().pop());
+                System.out.println("Trying " + preferredCourse + " and " + instructor);
                 if(preferredCourse.getInstructor() == null)
                 {
                     preferredCourse.setInstructor(instructor);
                     assigned = true;
                 }
-                else  if(preferredCourse.getInstructor().compareTo(instructor, preferredCourse) < 0)
+                else  if(preferredCourse.getInstructor().compareSeniorities(instructor, preferredCourse) < 0)
                 {
                     preferredCourse.getInstructor().getCourses().remove(preferredCourse);
                     preferredCourse.setInstructor(instructor);
                     assigned = true;
                 }
+                if(instructor.getPreferredCourses().isEmpty())
+                    break;
             }
         }
     }
